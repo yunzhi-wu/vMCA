@@ -748,7 +748,10 @@ bool CSequenceDiagram::AddEvent(lifeLine_h lifeLine, double x, unsigned int row,
 
   const float start = lifeLine_p->go.y2 + (lifeLine_p->go.y2 - lifeLine_p->y_center);
 
-  AddLine(x, start, x, lifeLine_p->y_center, row, label_p, labelLength, colorRGB, 0.5f, lineEnds);
+  if (label_p != NULL && labelLength > 0)
+	AddLine(x, start, x, lifeLine_p->y_center, row, label_p, labelLength, colorRGB, 0.5f, lineEnds);
+  else
+	AddLine(x, start, x, lifeLine_p->y_center, row);
 
   return true;
 }

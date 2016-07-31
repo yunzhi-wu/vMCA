@@ -108,6 +108,18 @@ public:
   bool ParseFloat(float* value_p);
 
   //-----------------------------------------------------------------------------------------------------------------------------
+  // Function: ParseSymbol
+  // Description: The function parses the text string from the current index, it will skip any character that are not in the
+  //              "valid symbol set"   A-Z, a-z, 0-9, and '_'
+  //              It will stop parsing characters when characters are not in the "valid symbol set"
+  // Parameters
+  //    Input:   max_symbol_length, the maximum size of a symbol
+  //    Output:  value_p,  the destination for the parsed symbol
+  
+  //    Returns:      true,     if successfull
+  bool ParseSymbol(int max_symbol_length, char* value_p);
+
+  //-----------------------------------------------------------------------------------------------------------------------------
   // Function: Extract
   // Description: Copy characters startIndex to endIndex, into the value_p string
   // Parameters

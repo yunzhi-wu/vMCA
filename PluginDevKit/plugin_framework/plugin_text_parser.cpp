@@ -207,6 +207,33 @@ bool CTextParser::ParseFloat(float* value_p)
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
+bool CTextParser::ParseSymbol(int max_symbol_length, char* value_p)
+{
+	int                   count = 0;
+	register const char*  loopText_p = &m_text_p[m_parseIndex];
+	register const char*  loopTextEnd_p = &m_text_p[m_textLength];
+
+	#define isValidForSymbol(c) \
+		(('A' <= (c) && (c) <= 'Z') || ('a' <= (c) && (c) <= 'z') || ('0' <= (c) && (c) <= '9') || ((c) == '_'))
+
+	while (loopText_p < loopTextEnd_p && isValidForSymbol(*loopText_p) && count < max_symbol_length - 1)
+		value_p[count++] = *loopText_p++;
+
+	value_p[count] = '\0';
+
+	if (count == 0)
+	{
+		return false;
+	}
+	else
+	{
+		m_parseIndex += count;
+		return true;
+	}
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------
+
 void CTextParser::Extract(unsigned int startIndex, unsigned int endIndex, char* value_p)
 {
 #ifdef _DEBUG
