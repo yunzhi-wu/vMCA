@@ -1,0 +1,5 @@
+Time:0 Value:140
+Time:1 Value:563
+Time:2 Value:704
+Time:3 Value:844
+Time:4 Value:704

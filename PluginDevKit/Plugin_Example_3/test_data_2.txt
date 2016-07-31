@@ -1,0 +1,18 @@
+
+Test data
+Log for Example 3
+
+"Line:0 Time:0 Value:1",
+  "Line:0 Time:1 Value:4",
+  "Line:0 Time:2 Value:5",
+  "Line:0 Time:3 Value:6",
+  "Line:0 Time:4 Value:5",
+  "Line:0 Time:6 Value:1",
+  "Line:0 Time:7 Value:2",
+  "Line:0 Time:8 Value:1",
+  "Line:0 Time:9 Value:1",
+  
+  
+  
+  
+  
