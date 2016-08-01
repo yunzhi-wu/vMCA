@@ -28,7 +28,7 @@ private:
   unsigned int                        m_lifeLines_number;
   unsigned int                        m_events_number;
 
-#define MAX_NUM_OF_LIFE_LINES   50
+#define MAX_NUM_OF_LIFE_LINES   100
   lifeLine_h                          m_lifeLines_a[MAX_NUM_OF_LIFE_LINES];
 
   CSequenceDiagram*                   m_sequenceDiagram_p;
