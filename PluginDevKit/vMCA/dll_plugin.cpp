@@ -92,37 +92,42 @@ void CPlot_LPP_Ziplog::pvPlotRow(const char* row_p, const unsigned int* length_p
   m_parser.SetText(row_p, *length_p);
 
   // In this simple version, only lines contains "LPP_createThread" are processed
-  if (m_parser.Search("LPP_createThread: ", 18))
+  unsigned int parseIndex = 0;
+  if (!m_parser.Search("LPP_createThread: ", 18))
   {
-	  if (m_parser.ParseSymbol(MAX_EVENT_NAME_LEN, event_name))
+	  return;
+  }
+  else
+  {
+	  parseIndex = m_parser.GetParseIndex();
+  }
+  m_parser.ResetParser();
+  if (!m_parser.Search(",", 1)) return;
+  int event_time = 0;
+  if (!m_parser.ParseInt(&event_time)) return;
+  // TODO: check the range of the event_time
+  m_parser.SetParseIndex(parseIndex);
+  if (!m_parser.ParseSymbol(MAX_EVENT_NAME_LEN, event_name)) return;
+
+  std::map<std::string, int>::iterator it;
+  it = m_events_dict.find(event_name);
+  if (it == m_events_dict.end())
+  {
+	  if (m_lifeLines_number < MAX_NUM_OF_LIFE_LINES - 1)
 	  {
-		  std::map<std::string, int>::iterator it;
-		  it = m_events_dict.find(event_name);
-		  if (it == m_events_dict.end())
-		  {
-			  if (m_lifeLines_number < MAX_NUM_OF_LIFE_LINES - 1)
-			  {
-				  m_lifeLines_number++;
+		  m_lifeLines_number++;
 
-				  m_events_dict.insert(std::pair<std::string, int>(event_name, m_lifeLines_number));
+		  m_events_dict.insert(std::pair<std::string, int>(event_name, m_lifeLines_number));
 
-				  m_lifeLines_a[m_lifeLines_number] = m_sequenceDiagram_p->AddLifeLine((float)m_lifeLines_number - 0.25f,
-					  (float)m_lifeLines_number + 0.25f, event_name, (unsigned int)strlen(event_name),
-					  RGB(0x55, 20 + 20 * m_lifeLines_number, 20 + 20 * m_lifeLines_number));
-			  }
-		  }
-		  else
-		  {
-			  int lifeLineDest = it->second;
-			  m_parser.SetParseIndex(14);
-			  int event_time = 0;
-			  if (m_parser.ParseInt(&event_time))
-			  {
-				  if (event_time > 0)
-					m_sequenceDiagram_p->AddEvent(m_lifeLines_a[lifeLineDest], event_time, rowIndex, NULL, 0, RGB(90, 90, 90), false);
-			  }
-		  }
+		  m_lifeLines_a[m_lifeLines_number] = m_sequenceDiagram_p->AddLifeLine((float)m_lifeLines_number - 0.25f,
+			  (float)m_lifeLines_number + 0.25f, event_name, (unsigned int)strlen(event_name),
+			  RGB(0x55, 20 + 20 * m_lifeLines_number, 20 + 20 * m_lifeLines_number));
 	  }
+  }
+  else
+  {
+	  int lifeLineDest = it->second;
+	  m_sequenceDiagram_p->AddEvent(m_lifeLines_a[lifeLineDest], event_time, rowIndex, NULL, 0, RGB(90, 90, 90), false);
   }
 }
 
